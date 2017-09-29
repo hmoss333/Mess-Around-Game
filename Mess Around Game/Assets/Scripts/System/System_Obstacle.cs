@@ -43,6 +43,6 @@ public class System_Obstacle : MonoBehaviour {
     {
         target.color = Color.red;
         yield return new WaitForSeconds(0.25f);
-        target.color = Color.white;
+        target.color = Color.green;
     }
 }

@@ -418,7 +418,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 7ef8ffff2cf9ffff06faffffdafbffff00000000
+    m_ExpandedIDs: 32d9fcffe2d9fcffbadafcffaadefcff5adffcff32e0fcffbce2fcff6ce3fcff44e4fcff7ee6fcff2ee7fcff06e8fcff0216fdffb616fdff8e17fdff3498ffffea98ffffc299ffffb09bffff669cffff3e9dffff66d9ffff1cdafffff4daffff82ecffff3aedffff12eeffffdafbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -620,7 +620,8 @@ MonoBehaviour:
     m_ScenePaths: []
     m_ShowAllHits: 0
     m_SearchArea: 0
-    m_Folders: []
+    m_Folders:
+    - Assets/Scripts/Player
   m_ViewMode: 0
   m_StartGridSize: 53
   m_LastFolders: []

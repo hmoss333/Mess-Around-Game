@@ -25,12 +25,6 @@ public class Player_Move : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //Movement controls
-#if UNITY_EDITOR
-        transform.Translate(Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime, 0, 0); //for testing
-#endif
-        transform.Translate(Input.acceleration.x * speed * Time.deltaTime, 0, 0); //using tilt controls
-
         //Looping magic
         if (transform.position.x < leftConstraint - buffer)
         {

@@ -20,7 +20,6 @@ public class System_Generator : MonoBehaviour {
         {
             spawning = true;
             StartCoroutine(Spawn());
-            Debug.Log("doing thing...");
         }
 	}
 
