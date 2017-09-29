@@ -26,6 +26,7 @@ public class System_Generator : MonoBehaviour {
     IEnumerator Spawn()
     {
         GameObject obstacle = Instantiate(target, new Vector2(Random.Range(-5f, 5f), 5f), Quaternion.identity);
+        obstacle.transform.parent = this.transform; //set parent
         yield return new WaitForSeconds(rate);
         spawning = false;
     }
