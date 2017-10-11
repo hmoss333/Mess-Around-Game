@@ -7,7 +7,7 @@ public class System_Obstacle : MonoBehaviour {
     public float speed;
 
     float bottomConstraint = 960.0f;
-    float buffer = 1.0f; // set this so the spaceship disappears offscreen before re-appearing on other side
+    float buffer = 1.0f; // set this so the obstacle disappears offscreen before re-appearing on other side
     Camera cam;
     float distanceZ;
 
