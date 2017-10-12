@@ -8,10 +8,12 @@ public class System_Generator : MonoBehaviour {
     public GameObject target;
 
     bool spawning = false;
+
+    System_Gravity sgrav;
     
     // Use this for initialization
 	void Start () {
-		
+        sgrav = GetComponent<System_Gravity>();
 	}
 	
 	// Update is called once per frame
