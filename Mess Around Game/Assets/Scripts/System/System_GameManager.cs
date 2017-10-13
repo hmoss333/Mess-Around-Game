@@ -13,6 +13,8 @@ public class System_GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
         player = GameObject.FindObjectOfType<Player_Move>();
 
         gameOver = false;

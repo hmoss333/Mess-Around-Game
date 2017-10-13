@@ -7,9 +7,9 @@ public class System_Gravity : MonoBehaviour {
     public float force = 9.81f; //apply gravity
     public Vector2 newDir;
 
-    private Quaternion localRotation; // 
+    Quaternion localRotation; // 
     public float smooth = 1.0f; // ajustable speed from Inspector in Unity editor
-	private Quaternion smoothRot;
+	Quaternion smoothRot;
 
     GameObject target;
     float inputSpeed;
@@ -25,8 +25,8 @@ public class System_Gravity : MonoBehaviour {
         target = GameObject.Find("Main Camera");
         localRotation = target.transform.rotation;
 
-        rotationMin = Quaternion.Euler(new Vector3(0f, 0f, -50f));
-        rotationMax = Quaternion.Euler(new Vector3(0f, 0f, 50f));
+        rotationMin = Quaternion.Euler(new Vector3(0f, 0f, -30f));
+        rotationMax = Quaternion.Euler(new Vector3(0f, 0f, 30f));
 
         rotation = transform.rotation;
     }
@@ -40,9 +40,9 @@ public class System_Gravity : MonoBehaviour {
 		inputSpeed = Input.acceleration.x;            
 #endif
 
-        if (inputSpeed > 1f)
+        if (inputSpeed >= 1f)
             inputSpeed = 1f;
-        else if (inputSpeed < -1)
+        else if (inputSpeed <= -1)
             inputSpeed = -1f;
 
         smoothRot = Quaternion.Slerp(localRotation, Quaternion.AngleAxis(inputSpeed * Mathf.Rad2Deg, Vector3.forward), smooth);
@@ -54,14 +54,30 @@ public class System_Gravity : MonoBehaviour {
         Physics2D.gravity = newDir * force;
         //transform.Rotate(new Vector3(0, 0, newDir.x));
 
-        if (inputSpeed > 0 && rotation.z < rotationMax.z)
+        //if (inputSpeed > 0 && rotation.z < rotationMax.z)
+        //{
+        //    rotation.z += Quaternion.Euler(new Vector3(0f, 0f, inputSpeed)).z; //force * Time.deltaTime)).z;
+        //}
+
+        //if (inputSpeed < 0 && rotation.z > rotationMin.z)
+        //{
+        //    rotation.z -= Quaternion.Euler(new Vector3(0f, 0f, inputSpeed)).z; //force * Time.deltaTime)).z;
+        //}
+
+        if (inputSpeed > 0 )
         {
-            rotation.z += Quaternion.Euler(new Vector3(0f, 0f, force * Time.deltaTime)).z;
+            if (rotation.z < rotationMax.z)
+            {
+                rotation.z += Quaternion.Euler(new Vector3(0f, 0f, inputSpeed * force)).z;
+            }
         }
 
-        if (inputSpeed < 0 && rotation.z > rotationMin.z)
+        if (inputSpeed < 0)
         {
-            rotation.z -= Quaternion.Euler(new Vector3(0f, 0f, force * Time.deltaTime)).z;
+            if (rotation.z > rotationMin.z)
+            {
+                rotation.z -= Quaternion.Euler(new Vector3(0f, 0f, -inputSpeed * force)).z;
+            }
         }
 
         transform.rotation = rotation;
