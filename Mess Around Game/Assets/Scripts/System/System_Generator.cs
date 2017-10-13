@@ -8,17 +8,15 @@ public class System_Generator : MonoBehaviour {
     public GameObject target;
 
     bool spawning = false;
-
-    System_Gravity sgrav;
     
     // Use this for initialization
 	void Start () {
-        sgrav = GetComponent<System_Gravity>();
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (!spawning)
+        if (!spawning) // && !System_GameManager.gameOver)
         {
             spawning = true;
             StartCoroutine(Spawn());
@@ -27,8 +25,8 @@ public class System_Generator : MonoBehaviour {
 
     IEnumerator Spawn()
     {
-        GameObject obstacle = Instantiate(target, new Vector2(Random.Range(-5f, 5f), 5f), Quaternion.identity);
-        obstacle.transform.parent = this.transform; //set parent
+        GameObject obstacle = Instantiate(target, new Vector2(Random.Range(-10f, 10f), 5f), Quaternion.identity);
+        obstacle.transform.parent = this.transform;
         yield return new WaitForSeconds(rate);
         spawning = false;
     }

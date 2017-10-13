@@ -6,8 +6,10 @@ public class System_Obstacle : MonoBehaviour {
 
     public float speed;
 
+    float leftConstraint;
+    float rightConstraint;
     float bottomConstraint = 960.0f;
-    float buffer = 1.0f; // set this so the obstacle disappears offscreen before re-appearing on other side
+    float buffer = 0.5f; // set this so the obstacle disappears offscreen before re-appearing on other side
     Camera cam;
     float distanceZ;
 
@@ -20,43 +22,31 @@ public class System_Obstacle : MonoBehaviour {
 
         sgrav = GameObject.FindObjectOfType<System_Gravity>();
 
+        leftConstraint = cam.ScreenToWorldPoint(new Vector3(0.0f, 0.0f, distanceZ)).x;
+        rightConstraint = cam.ScreenToWorldPoint(new Vector3(Screen.width, 0.0f, distanceZ)).x;
         bottomConstraint = cam.ScreenToWorldPoint(new Vector3(0.0f, 0.0f, distanceZ)).y;
     }
 
     // Update is called once per frame
     void Update () {
-        transform.Translate(0, speed * sgrav.newDir.y * Time.deltaTime, 0);
+        //Update Transform
+        transform.Translate(0, -speed * Time.deltaTime, 0);
         transform.rotation = sgrav.transform.rotation;
+
+        //Looping magic
+        if (transform.position.x < leftConstraint - buffer)
+        {
+            transform.position = new Vector3(rightConstraint + buffer, transform.position.y, transform.position.z);
+        }
+        if (transform.position.x > rightConstraint + buffer)
+        {
+            transform.position = new Vector3(leftConstraint - buffer, transform.position.y, transform.position.z);
+        }
 
         //Check if obstacle is off the bottom of the screen
         if (transform.position.y < bottomConstraint - buffer)
         {
             Destroy(this.gameObject);
         }
-    }
-
-    void OnTriggerEnter2D (Collider2D col)
-    {
-        if (col.tag == "Player")
-        {
-            Debug.Log("Hit");
-            StartCoroutine(ColorChange(col.GetComponent<SpriteRenderer>()));
-        }
-    }
-
-    //void OnTriggerExit2D(Collider2D col)
-    //{
-    //    if (col.tag == "PlayArea")
-    //    {
-    //        Debug.Log("Left area");
-    //        Destroy(this.gameObject);
-    //    }
-    //}
-
-    IEnumerator ColorChange (SpriteRenderer target)
-    {
-        target.color = Color.red;
-        yield return new WaitForSeconds(0.25f);
-        target.color = Color.green;
     }
 }

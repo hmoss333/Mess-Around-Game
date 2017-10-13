@@ -5,16 +5,14 @@ using UnityEngine;
 public class Player_Move : MonoBehaviour {
 
     public float speed;
+    public bool isHit = false;
 
-    private float leftConstraint; // = 0.0f;
-    private float rightConstraint; // = Screen.width; //960.0f;
-    //private float bottomConstraint; // = 0.0f;
-    //private float topConstraint; // = Screen.height; //960.0f;
-    private float buffer = 1f; // set this so the ball disappears offscreen before re-appearing on other side
+    float leftConstraint; // = 0.0f;
+    float rightConstraint; // = Screen.width; //960.0f;
+    float buffer = 0.25f; // set this so the ball disappears offscreen before re-appearing on other side
     Camera cam;
-    private float distanceZ;
+    float distanceZ;
 
-    System_Gravity sgrav;
 
     // Use this for initialization
     void Start () {
@@ -23,16 +21,11 @@ public class Player_Move : MonoBehaviour {
 
         leftConstraint = cam.ScreenToWorldPoint(new Vector3(0.0f, 0.0f, distanceZ)).x;
         rightConstraint = cam.ScreenToWorldPoint(new Vector3(Screen.width, 0.0f, distanceZ)).x;
-        //bottomConstraint = cam.ScreenToWorldPoint(new Vector3(0.0f, 0.0f, distanceZ)).y;
-        //topConstraint = cam.ScreenToWorldPoint(new Vector3(0.0f, Screen.height, distanceZ)).y;
-
-        //sgrav = GameObject.FindObjectOfType<System_Gravity>();
     }
 	
 	// Update is called once per frame
 	void Update () {
         //Looping magic
-        //Left/Right
         if (transform.position.x < leftConstraint - buffer)
         {
             transform.position = new Vector3(rightConstraint + buffer, transform.position.y, transform.position.z);
@@ -41,14 +34,30 @@ public class Player_Move : MonoBehaviour {
         {
             transform.position = new Vector3(leftConstraint - buffer, transform.position.y, transform.position.z);
         }
-        ////Top/Bottom
-        //if (transform.position.y < (bottomConstraint * sgrav.newDir.y) - buffer)
-        //{
-        //    transform.position = new Vector3(transform.position.x, (topConstraint * sgrav.newDir.y) + buffer, transform.position.z);
-        //}
-        //if (transform.position.y > (topConstraint * sgrav.newDir.y) + buffer)
-        //{
-        //    transform.position = new Vector3(transform.position.x, (bottomConstraint * sgrav.newDir.y) - buffer, transform.position.z);
-        //}
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.tag == "Obstacle" && !isHit)
+        {
+            Debug.Log("Hit");
+            isHit = true;
+            StartCoroutine(ColorChange(GetComponent<SpriteRenderer>()));
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.tag == "Obstacle" && isHit)
+        {
+            isHit = false;
+        }
+    }
+
+    IEnumerator ColorChange(SpriteRenderer target)
+    {
+        target.color = Color.red;
+        yield return new WaitForSeconds(0.25f);
+        target.color = Color.green;
     }
 }

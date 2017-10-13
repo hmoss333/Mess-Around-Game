@@ -14,16 +14,25 @@ public class System_Gravity : MonoBehaviour {
     GameObject target;
     float inputSpeed;
 
+    Quaternion rotationMin;
+    Quaternion rotationMax;
+    Quaternion rotation;
+
     // Use this for initialization
     void Start () {
         //localRotation = transform.rotation;
 
         target = GameObject.Find("Main Camera");
         localRotation = target.transform.rotation;
+
+        rotationMin = Quaternion.Euler(new Vector3(0f, 0f, -50f));
+        rotationMax = Quaternion.Euler(new Vector3(0f, 0f, 50f));
+
+        rotation = transform.rotation;
     }
 	
 	// Update is called once per frame
-	void FixedUpdate ()
+	void Update()
     {
 #if UNITY_EDITOR
         inputSpeed = Input.GetAxisRaw("Horizontal");
@@ -39,21 +48,22 @@ public class System_Gravity : MonoBehaviour {
         smoothRot = Quaternion.Slerp(localRotation, Quaternion.AngleAxis(inputSpeed * Mathf.Rad2Deg, Vector3.forward), smooth);
         newDir = smoothRot * -Vector2.up;
 
-        Physics2D.gravity = newDir * force;
-        //transform.rotation = smoothRot;
-
         if (newDir.sqrMagnitude > 1)
             newDir.Normalize();
 
-        transform.Rotate (new Vector3(0, 0, newDir.x));
-        //target.transform.Rotate(new Vector3(0, 0, newDir.x));
-    }
+        Physics2D.gravity = newDir * force;
+        //transform.Rotate(new Vector3(0, 0, newDir.x));
 
-    void Update()
-    {
-        //localRotation.z += Input.acceleration.x * Time.deltaTime * speed;
+        if (inputSpeed > 0 && rotation.z < rotationMax.z)
+        {
+            rotation.z += Quaternion.Euler(new Vector3(0f, 0f, force * Time.deltaTime)).z;
+        }
 
-        //transform.rotation = localRotation;
-        //transform.rotation = Quaternion.AngleAxis(-Input.acceleration.x * Mathf.Rad2Deg, Vector3.forward);
+        if (inputSpeed < 0 && rotation.z > rotationMin.z)
+        {
+            rotation.z -= Quaternion.Euler(new Vector3(0f, 0f, force * Time.deltaTime)).z;
+        }
+
+        transform.rotation = rotation;
     }
 }
