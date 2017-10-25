@@ -25,8 +25,8 @@ public class System_Gravity : MonoBehaviour {
         target = GameObject.Find("Main Camera");
         localRotation = target.transform.rotation;
 
-        rotationMin = Quaternion.Euler(new Vector3(0f, 0f, -30f));
-        rotationMax = Quaternion.Euler(new Vector3(0f, 0f, 30f));
+        rotationMin = Quaternion.Euler(new Vector3(0f, 0f, -10f));
+        rotationMax = Quaternion.Euler(new Vector3(0f, 0f, 10f));
 
         rotation = transform.rotation;
     }
@@ -37,7 +37,7 @@ public class System_Gravity : MonoBehaviour {
 #if UNITY_EDITOR
         inputSpeed = Input.GetAxisRaw("Horizontal");
 #elif UNITY_ANDROID
-		inputSpeed = Input.acceleration.x;            
+		inputSpeed = Input.acceleration.normalized.x;            
 #endif
 
         if (inputSpeed >= 1f)
@@ -52,23 +52,12 @@ public class System_Gravity : MonoBehaviour {
             newDir.Normalize();
 
         Physics2D.gravity = newDir * force;
-        //transform.Rotate(new Vector3(0, 0, newDir.x));
-
-        //if (inputSpeed > 0 && rotation.z < rotationMax.z)
-        //{
-        //    rotation.z += Quaternion.Euler(new Vector3(0f, 0f, inputSpeed)).z; //force * Time.deltaTime)).z;
-        //}
-
-        //if (inputSpeed < 0 && rotation.z > rotationMin.z)
-        //{
-        //    rotation.z -= Quaternion.Euler(new Vector3(0f, 0f, inputSpeed)).z; //force * Time.deltaTime)).z;
-        //}
 
         if (inputSpeed > 0 )
         {
             if (rotation.z < rotationMax.z)
             {
-                rotation.z += Quaternion.Euler(new Vector3(0f, 0f, inputSpeed * force)).z;
+                rotation.z += Quaternion.Euler(new Vector3(0f, 0f, inputSpeed * force * Time.deltaTime)).z;
             }
         }
 
@@ -76,7 +65,7 @@ public class System_Gravity : MonoBehaviour {
         {
             if (rotation.z > rotationMin.z)
             {
-                rotation.z -= Quaternion.Euler(new Vector3(0f, 0f, -inputSpeed * force)).z;
+                rotation.z -= Quaternion.Euler(new Vector3(0f, 0f, -inputSpeed * force * Time.deltaTime)).z;
             }
         }
 

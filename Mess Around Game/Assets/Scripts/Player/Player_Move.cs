@@ -58,6 +58,6 @@ public class Player_Move : MonoBehaviour {
     {
         target.color = Color.red;
         yield return new WaitForSeconds(0.25f);
-        target.color = Color.green;
+        target.color = Color.white;
     }
 }

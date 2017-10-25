@@ -35,18 +35,12 @@ public class System_Obstacle : MonoBehaviour {
 
         //Looping magic
         if (transform.position.x < leftConstraint - buffer)
-        {
             transform.position = new Vector3(rightConstraint + buffer, transform.position.y, transform.position.z);
-        }
         if (transform.position.x > rightConstraint + buffer)
-        {
             transform.position = new Vector3(leftConstraint - buffer, transform.position.y, transform.position.z);
-        }
 
         //Check if obstacle is off the bottom of the screen
         if (transform.position.y < bottomConstraint - buffer)
-        {
             Destroy(this.gameObject);
-        }
     }
 }
