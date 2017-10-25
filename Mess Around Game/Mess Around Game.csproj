@@ -85,8 +85,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Player\Player_Move.cs" />
+    <Compile Include="Assets\Scripts\System\System_GameManager.cs" />
     <Compile Include="Assets\Scripts\System\System_Generator.cs" />
+    <Compile Include="Assets\Scripts\System\System_Gravity.cs" />
     <Compile Include="Assets\Scripts\System\System_Obstacle.cs" />
+    <Compile Include="Assets\Scripts\System\System_Wall.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
