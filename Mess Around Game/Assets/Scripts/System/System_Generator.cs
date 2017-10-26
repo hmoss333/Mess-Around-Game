@@ -9,10 +9,12 @@ public class System_Generator : MonoBehaviour {
     public GameObject[] targets;
 
     bool spawning = false;
-    
-    // Use this for initialization
-	void Start () {
 
+    System_GameManager sgm;
+
+    // Use this for initialization
+    void Start () {
+        sgm = FindObjectOfType<System_GameManager>();
 	}
 	
 	// Update is called once per frame
@@ -26,17 +28,35 @@ public class System_Generator : MonoBehaviour {
 
     IEnumerator Spawn()
     {
-        wallCounter++;
         GameObject obstacle;
 
-        if (wallCounter > Random.Range(3, 5))
+        switch (sgm.currentMode)
         {
-            obstacle = Instantiate(targets[1], new Vector2(Random.Range(-5f, 5f), 5f), Quaternion.identity);
-            wallCounter = 0;
+            case System_GameManager.Modes.Dodge:
+                obstacle = Instantiate(targets[0], new Vector2(Random.Range(-5f, 5f), 5f), Quaternion.identity);
+                break;
+            case System_GameManager.Modes.Maze:
+                wallCounter++;
+                if (wallCounter > Random.Range(3, 5))
+                {
+                    obstacle = Instantiate(targets[1], new Vector2(Random.Range(-5f, 5f), 5f), Quaternion.identity);
+                    wallCounter = 0;
+                }
+                break;
+            case System_GameManager.Modes.Challenge:
+                wallCounter++;
+                if (wallCounter > Random.Range(3, 5))
+                {
+                    obstacle = Instantiate(targets[1], new Vector2(Random.Range(-5f, 5f), 5f), Quaternion.identity);
+                    wallCounter = 0;
+                }
+                else
+                    obstacle = Instantiate(targets[0], new Vector2(Random.Range(-5f, 5f), 5f), Quaternion.identity);
+                break;
+            default:
+                break;
         }
-        else
-            obstacle = Instantiate(targets[0], new Vector2(Random.Range(-5f, 5f), 5f), Quaternion.identity);
-        //GameObject obstacle = Instantiate(targets[Random.Range(0,targets.Length)], new Vector2(Random.Range(-5f, 5f), 5f), Quaternion.identity);
+
         //obstacle.transform.parent = this.transform;
         yield return new WaitForSeconds(rate);
         spawning = false;

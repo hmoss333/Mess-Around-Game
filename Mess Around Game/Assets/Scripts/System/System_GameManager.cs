@@ -7,15 +7,20 @@ public class System_GameManager : MonoBehaviour {
     public enum States { Playing, Lose, Pause}
     public States currentState;
 
+    public enum Modes { Dodge, Maze, Challenge}
+    public Modes currentMode;
+
     public static bool gameOver;
 
     Player_Move player;
+    System_Generator sg;
 
     // Use this for initialization
     void Start () {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
         player = GameObject.FindObjectOfType<Player_Move>();
+        sg = GameObject.FindObjectOfType<System_Generator>();
 
         gameOver = false;
 	}
