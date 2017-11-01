@@ -37,9 +37,10 @@ public class System_Generator : MonoBehaviour {
                 break;
             case System_GameManager.Modes.Maze:
                 wallCounter++;
-                if (wallCounter > Random.Range(3, 5))
+                if (wallCounter > Random.Range(2, 4))
                 {
-                    obstacle = Instantiate(targets[1], new Vector2(Random.Range(-5f, 5f), 5f), Quaternion.identity);
+                    obstacle = Instantiate(targets[1], new Vector2(Random.Range(-3f, 3f), 3.5f), Quaternion.identity);
+                    obstacle.GetComponent<System_Wall>().speed = 0.75f;
                     wallCounter = 0;
                 }
                 break;
@@ -47,7 +48,7 @@ public class System_Generator : MonoBehaviour {
                 wallCounter++;
                 if (wallCounter > Random.Range(3, 5))
                 {
-                    obstacle = Instantiate(targets[1], new Vector2(Random.Range(-5f, 5f), 5f), Quaternion.identity);
+                    obstacle = Instantiate(targets[2], new Vector2(Random.Range(-5f, 5f), 5f), Quaternion.identity);
                     wallCounter = 0;
                 }
                 else
