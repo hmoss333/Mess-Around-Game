@@ -418,7 +418,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: bc10ffff7e11ffff6212ffff6a12ffff6816ffff3417ffff1418ffff1818ffff3e1cffff0a1dffffea1dffffee1dffff8822ffff5223ffff3224ffff3624ffff302afffff42affffdc2bffffea2bffff0068ffff7c73ffff4c74ffff9678ffffd27cffff647fffff2681ffffa882ffff0ea3ffff82f9ffffcefaffffdefbffff00000000
+    m_ExpandedIDs: ba8bffff7a8cffff5a8dffff5e8dffffb0a9ffffdcc0ffff6ed3ffffdefbffff000000003e260000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -621,7 +621,7 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Materials
+    - Assets/Scripts/System
   m_ViewMode: 0
   m_StartGridSize: 53
   m_LastFolders: []
@@ -633,7 +633,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: ac9c0000
     m_LastClickedID: 40108
-    m_ExpandedIDs: 00000000c424000004250000202500002225000040250000
+    m_ExpandedIDs: 00000000be240000002500001a25000022250000242500003225000042250000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -661,7 +661,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 3a84ffff00000000c42400000425000020250000222500003025000040250000
+    m_ExpandedIDs: 00000000be240000002500001a25000022250000242500003225000042250000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

@@ -34,14 +34,18 @@ public class System_Generator : MonoBehaviour {
         {
             case System_GameManager.Modes.Dodge:
                 obstacle = Instantiate(targets[0], new Vector2(Random.Range(-5f, 5f), 5f), Quaternion.identity);
+                if (rate > 0.5f)
+                    rate -= 0.01f;
                 break;
             case System_GameManager.Modes.Maze:
                 wallCounter++;
-                if (wallCounter > Random.Range(2, 4))
+                if (wallCounter > 2)
                 {
                     obstacle = Instantiate(targets[1], new Vector2(Random.Range(-3f, 3f), 3.5f), Quaternion.identity);
                     obstacle.GetComponent<System_Wall>().speed = 0.75f;
                     wallCounter = 0;
+                    if (rate > 0.5f)
+                        rate -= 0.01f;
                 }
                 break;
             case System_GameManager.Modes.Challenge:
@@ -53,6 +57,8 @@ public class System_Generator : MonoBehaviour {
                 }
                 else
                     obstacle = Instantiate(targets[0], new Vector2(Random.Range(-5f, 5f), 5f), Quaternion.identity);
+                if (rate > 0.5f)
+                    rate -= 0.01f;
                 break;
             default:
                 break;
