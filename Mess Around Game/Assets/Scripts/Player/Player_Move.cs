@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Player_Move : MonoBehaviour {
 
-    public float speed;
-    public bool isHit = false;
 
     float leftConstraint; // = 0.0f;
     float rightConstraint; // = Screen.width; //960.0f;
+    float bottomConstraint;
     float buffer = 0.25f; // set this so the ball disappears offscreen before re-appearing on other side
     Camera cam;
     float distanceZ;
 
+    System_GameManager gm;
 
     // Use this for initialization
     void Start () {
@@ -21,6 +21,9 @@ public class Player_Move : MonoBehaviour {
 
         leftConstraint = cam.ScreenToWorldPoint(new Vector3(0.0f, 0.0f, distanceZ)).x;
         rightConstraint = cam.ScreenToWorldPoint(new Vector3(Screen.width, 0.0f, distanceZ)).x;
+        bottomConstraint = cam.ScreenToWorldPoint(new Vector3(0.0f, 0.0f, distanceZ)).y;
+
+        gm = GameObject.FindObjectOfType<System_GameManager>();
     }
 	
 	// Update is called once per frame
@@ -34,30 +37,11 @@ public class Player_Move : MonoBehaviour {
         {
             transform.position = new Vector3(leftConstraint - buffer, transform.position.y, transform.position.z);
         }
-    }
-
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.tag == "Obstacle" && !isHit)
+        if (transform.position.y < bottomConstraint - buffer)
         {
-            Debug.Log("Hit");
-            isHit = true;
-            StartCoroutine(ColorChange(GetComponent<SpriteRenderer>()));
+            Debug.Log("dead");
+            gm.GameOver();
+            Destroy(this.gameObject);
         }
-    }
-
-    private void OnTriggerExit2D(Collider2D col)
-    {
-        if (col.tag == "Obstacle" && isHit)
-        {
-            isHit = false;
-        }
-    }
-
-    IEnumerator ColorChange(SpriteRenderer target)
-    {
-        target.color = Color.red;
-        yield return new WaitForSeconds(0.25f);
-        target.color = Color.white;
     }
 }

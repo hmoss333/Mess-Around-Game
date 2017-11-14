@@ -46,13 +46,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Obstacle\Obstacle_Base.cs" />
+     <Compile Include="Assets\Scripts\Old\System\System_Generator.cs" />
+     <Compile Include="Assets\Scripts\Old\System\System_Gravity.cs" />
+     <Compile Include="Assets\Scripts\Old\System\System_Obstacle.cs" />
+     <Compile Include="Assets\Scripts\Old\System\System_Wall.cs" />
+     <Compile Include="Assets\Scripts\Player\Player_LineControl.cs" />
      <Compile Include="Assets\Scripts\Player\Player_Move.cs" />
      <Compile Include="Assets\Scripts\System\System_GameManager.cs" />
-     <Compile Include="Assets\Scripts\System\System_Generator.cs" />
-     <Compile Include="Assets\Scripts\System\System_Gravity.cs" />
      <Compile Include="Assets\Scripts\System\System_MainMenu.cs" />
-     <Compile Include="Assets\Scripts\System\System_Obstacle.cs" />
-     <Compile Include="Assets\Scripts\System\System_Wall.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity 5.6.1/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

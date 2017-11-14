@@ -19,7 +19,8 @@ public class System_MainMenu : MonoBehaviour {
     
     // Use this for initialization
 	void Start () {
-        PlayerPrefs.SetInt("GameState", 0);
+        PlayerPrefs.SetInt("Streak", 0);
+
         screens = Screens.MainMenu;
 
         ScreenStateChange();
@@ -73,21 +74,8 @@ public class System_MainMenu : MonoBehaviour {
         ScreenStateChange();
     }
 
-    public void DodgeButton()
+    public void PlayGame()
     {
-        PlayerPrefs.SetInt("GameState", 0);
-        SceneManager.LoadSceneAsync("Game");
-    }
-
-    public void MazeButton()
-    {
-        PlayerPrefs.SetInt("GameState", 1);
-        SceneManager.LoadSceneAsync("Game");
-    }
-
-    public void GauntletButton()
-    {
-        PlayerPrefs.SetInt("GameState", 2);
         SceneManager.LoadSceneAsync("Game");
     }
 
