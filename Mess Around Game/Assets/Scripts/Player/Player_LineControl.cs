@@ -12,7 +12,7 @@ public class Player_LineControl : MonoBehaviour {
 
     public Slider leftSlider;
     public Slider rightSlider;
-    float scaler = 5.0f;
+    float scaler;// = 5.0f;
     public float offset = 0.01f;
 
     System_GameManager gm;
@@ -20,6 +20,7 @@ public class Player_LineControl : MonoBehaviour {
     // Use this for initialization
     void Start () {
         gm = GameObject.FindObjectOfType<System_GameManager>();
+        scaler = gm.height;
 
         leftSlider = GameObject.Find("LeftSlider").GetComponent<Slider>();
         rightSlider = GameObject.Find("RightSlider").GetComponent<Slider>();
