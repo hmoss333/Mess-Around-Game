@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class System_MainMenu : MonoBehaviour {
 
-	public enum Screens { MainMenu = 0, LevelSelect, Exit}
+	public enum Screens { MainMenu = 0, LevelSelect, Settings, Exit}
     public Screens screens;
 
     [Header("Main Menu UI")]
@@ -13,6 +13,9 @@ public class System_MainMenu : MonoBehaviour {
 
     [Header("Level Select UI")]
     public GameObject levelSelect;
+
+    [Header("Settings UI")]
+    public GameObject settingsMenu;
 
     [Header("Exit UI")]
     public GameObject exitMenu;
@@ -40,18 +43,27 @@ public class System_MainMenu : MonoBehaviour {
                 mainMenu.SetActive(true);
                 levelSelect.SetActive(false);
                 exitMenu.SetActive(false);
+                settingsMenu.SetActive(false);
                 break;
             case Screens.LevelSelect:
                 //show level select here
                 mainMenu.SetActive(false);
                 levelSelect.SetActive(true);
                 exitMenu.SetActive(false);
+                settingsMenu.SetActive(false);
+                break;
+            case Screens.Settings:
+                mainMenu.SetActive(false);
+                levelSelect.SetActive(false);
+                exitMenu.SetActive(false);
+                settingsMenu.SetActive(true);
                 break;
             case Screens.Exit:
                 //show exit here
                 mainMenu.SetActive(false);
                 levelSelect.SetActive(false);
                 exitMenu.SetActive(true);
+                settingsMenu.SetActive(false);
                 break;
             default:
                 break;
@@ -77,6 +89,14 @@ public class System_MainMenu : MonoBehaviour {
     public void PlayGame()
     {
         SceneManager.LoadSceneAsync("Game");
+    }
+
+    public void Settings ()
+    {
+        if (screens != Screens.Settings)
+            screens = Screens.Settings;
+
+        ScreenStateChange();
     }
 
     public void BackButton()

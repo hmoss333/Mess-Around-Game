@@ -33,8 +33,6 @@ public class System_GameManager : MonoBehaviour {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
         player = GameObject.FindObjectOfType<Player_Move>();
-        //sg = GameObject.FindObjectOfType<System_Generator>();
-
         gameOver = false;
     }
 	
