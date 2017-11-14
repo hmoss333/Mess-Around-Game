@@ -12,7 +12,7 @@ public class Player_LineControl : MonoBehaviour {
 
     public Slider leftSlider;
     public Slider rightSlider;
-    float scaler = 10.0f;
+    float scaler = 5.0f;
     public float offset = 0.01f;
 
     System_GameManager gm;

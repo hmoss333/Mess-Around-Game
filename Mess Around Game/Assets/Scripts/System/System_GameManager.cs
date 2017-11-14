@@ -52,7 +52,7 @@ public class System_GameManager : MonoBehaviour {
         }
 
         //need a goal
-        prefabs = Instantiate(obstacleObject, new Vector2(Random.Range(0.0f, maxWidth), Random.Range(0.0f, maxHeight)), Quaternion.identity);
+        prefabs = Instantiate(obstacleObject, new Vector2(Random.Range(-maxWidth, maxWidth), Random.Range(1.5f, maxHeight)), Quaternion.identity);
         prefabs.GetComponent<Obstacle_Base>().isGoal = true;
     }
 
