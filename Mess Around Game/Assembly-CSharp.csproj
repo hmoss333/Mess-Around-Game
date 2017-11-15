@@ -53,6 +53,7 @@
      <Compile Include="Assets\Scripts\Old\System\System_Wall.cs" />
      <Compile Include="Assets\Scripts\Player\Player_LineControl.cs" />
      <Compile Include="Assets\Scripts\Player\Player_Move.cs" />
+     <Compile Include="Assets\Scripts\System\System_CameraFollow.cs" />
      <Compile Include="Assets\Scripts\System\System_GameManager.cs" />
      <Compile Include="Assets\Scripts\System\System_MainMenu.cs" />
  <Reference Include="UnityEngine.UI">

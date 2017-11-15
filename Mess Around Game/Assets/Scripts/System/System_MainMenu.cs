@@ -11,9 +11,6 @@ public class System_MainMenu : MonoBehaviour {
     [Header("Main Menu UI")]
     public GameObject mainMenu;
 
-    [Header("Level Select UI")]
-    public GameObject levelSelect;
-
     [Header("Settings UI")]
     public GameObject settingsMenu;
 
@@ -41,27 +38,23 @@ public class System_MainMenu : MonoBehaviour {
             case Screens.MainMenu:
                 //show main menu here
                 mainMenu.SetActive(true);
-                levelSelect.SetActive(false);
                 exitMenu.SetActive(false);
                 settingsMenu.SetActive(false);
                 break;
             case Screens.LevelSelect:
                 //show level select here
                 mainMenu.SetActive(false);
-                levelSelect.SetActive(true);
                 exitMenu.SetActive(false);
                 settingsMenu.SetActive(false);
                 break;
             case Screens.Settings:
                 mainMenu.SetActive(false);
-                levelSelect.SetActive(false);
                 exitMenu.SetActive(false);
                 settingsMenu.SetActive(true);
                 break;
             case Screens.Exit:
                 //show exit here
                 mainMenu.SetActive(false);
-                levelSelect.SetActive(false);
                 exitMenu.SetActive(true);
                 settingsMenu.SetActive(false);
                 break;
@@ -88,7 +81,7 @@ public class System_MainMenu : MonoBehaviour {
 
     public void PlayGame()
     {
-        SceneManager.LoadSceneAsync("Game");
+        SceneManager.LoadSceneAsync("Game_New");
     }
 
     public void Settings ()

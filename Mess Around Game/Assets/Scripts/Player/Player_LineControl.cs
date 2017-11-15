@@ -12,7 +12,7 @@ public class Player_LineControl : MonoBehaviour {
 
     public Slider leftSlider;
     public Slider rightSlider;
-    float scaler;// = 5.0f;
+    float scaler;
     public float offset = 0.01f;
 
     System_GameManager gm;
@@ -84,6 +84,11 @@ public class Player_LineControl : MonoBehaviour {
             }
 
             AddBoxColliderToLine(line.gameObject, leftPoint, rightPoint);
+        }
+        else
+        {
+            leftSlider.gameObject.SetActive(false);
+            rightSlider.gameObject.SetActive(false);
         }
     }
 
