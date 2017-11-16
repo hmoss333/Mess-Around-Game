@@ -10,8 +10,8 @@ public class Player_LineControl : MonoBehaviour {
     private LineRenderer line; //reference to LineRenderer component
     public Material material; //assign a material to the Line Renderer in the 
 
-    public Slider leftSlider;
-    public Slider rightSlider;
+    Slider leftSlider;
+    Slider rightSlider;
     float scaler;
     public float offset = 0.01f;
 
