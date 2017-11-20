@@ -7,11 +7,12 @@ public class Player_LineControl : MonoBehaviour {
 
     public Vector2 leftPoint;
     public Vector2 rightPoint;
-    private LineRenderer line; //reference to LineRenderer component
-    public Material material; //assign a material to the Line Renderer in the 
+    public LineRenderer line; //reference to LineRenderer component
+    public Material material; //assign a material to the Line Renderer
 
     Slider leftSlider;
     Slider rightSlider;
+
     float scaler;
     public float offset = 0.01f;
 
@@ -29,6 +30,7 @@ public class Player_LineControl : MonoBehaviour {
 
         leftSlider.value = 0f;
         rightSlider.value = 0f;
+
         leftPoint = new Vector2(-5, 0);
         rightPoint = new Vector2(5, 0);
 
@@ -58,12 +60,12 @@ public class Player_LineControl : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         if (!gm.gameOver)
         {
             if (leftSlider.value < rightSlider.value + offset && leftSlider.value > rightSlider.value - offset)
             {
-                leftPoint = new Vector2(leftPoint.x, leftSlider.value * scaler); //.Set(leftPoint.x, leftSlider.value * scaler);
+                leftPoint.Set(leftPoint.x, leftSlider.value * scaler);
                 line.SetPosition(0, leftPoint);
             }
             else
@@ -74,7 +76,7 @@ public class Player_LineControl : MonoBehaviour {
 
             if (rightSlider.value < leftSlider.value + offset && rightSlider.value > leftSlider.value - offset)
             {
-                rightPoint = new Vector2(rightPoint.x, rightSlider.value * scaler);
+                rightPoint.Set(rightPoint.x, rightSlider.value * scaler); // = new Vector2(rightPoint.x, rightSlider.value * scaler);
                 line.SetPosition(1, rightPoint);
             }
             else
