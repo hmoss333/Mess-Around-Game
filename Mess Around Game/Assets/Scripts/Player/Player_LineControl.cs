@@ -14,7 +14,7 @@ public class Player_LineControl : MonoBehaviour {
     Slider rightSlider;
 
     float scaler;
-    public float offset = 0.01f;
+    public float offset = 1f;//0.05f;
 
     System_GameManager gm;
 
@@ -30,6 +30,8 @@ public class Player_LineControl : MonoBehaviour {
 
         leftSlider.value = 0f;
         rightSlider.value = 0f;
+        leftSlider.maxValue = scaler;
+        rightSlider.maxValue = scaler;
 
         leftPoint = new Vector2(-5, 0);
         rightPoint = new Vector2(5, 0);
@@ -60,28 +62,28 @@ public class Player_LineControl : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	void Update () {
         if (!gm.gameOver)
         {
             if (leftSlider.value < rightSlider.value + offset && leftSlider.value > rightSlider.value - offset)
             {
-                leftPoint.Set(leftPoint.x, leftSlider.value * scaler);
+                leftPoint.Set(leftPoint.x, leftSlider.value);// * scaler);
                 line.SetPosition(0, leftPoint);
             }
             else
             {
-                leftSlider.value = leftPoint.y / scaler;
+                leftSlider.value = leftPoint.y;// / scaler;
                 line.SetPosition(0, leftPoint);
             }
 
             if (rightSlider.value < leftSlider.value + offset && rightSlider.value > leftSlider.value - offset)
             {
-                rightPoint.Set(rightPoint.x, rightSlider.value * scaler); // = new Vector2(rightPoint.x, rightSlider.value * scaler);
+                rightPoint.Set(rightPoint.x, rightSlider.value);// * scaler); // = new Vector2(rightPoint.x, rightSlider.value * scaler);
                 line.SetPosition(1, rightPoint);
             }
             else
             {
-                rightSlider.value = rightPoint.y / scaler;
+                rightSlider.value = rightPoint.y;// / scaler;
                 line.SetPosition(1, rightPoint);
             }
 
