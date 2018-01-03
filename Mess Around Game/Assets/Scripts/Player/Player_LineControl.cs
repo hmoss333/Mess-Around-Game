@@ -62,31 +62,71 @@ public class Player_LineControl : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         if (!gm.gameOver)
         {
-            if (leftSlider.value < rightSlider.value + offset && leftSlider.value > rightSlider.value - offset)
+            //if (leftSlider.value < rightSlider.value + offset && leftSlider.value > rightSlider.value - offset)
+            //{
+            //    leftPoint.Set(leftPoint.x, leftSlider.value);// * scaler);
+            //    //leftPoint = new Vector2(leftPoint.x, leftSlider.value * Time.deltaTime);
+            //}
+            //else
+            //{
+            //    leftSlider.value = leftPoint.y;// / scaler;
+            //    //leftPoint.Set(leftPoint.x, leftPoint.y);
+            //}
+
+            //if (rightSlider.value < leftSlider.value + offset && rightSlider.value > leftSlider.value - offset)
+            //{
+            //    rightPoint.Set(rightPoint.x, rightSlider.value);// * scaler); // = new Vector2(rightPoint.x, rightSlider.value * scaler);
+            //    //rightPoint = new Vector2(rightPoint.x, rightSlider.value * Time.deltaTime);
+            //}
+            //else
+            //{
+            //    rightSlider.value = rightPoint.y;// / scaler;
+            //    //rightPoint.Set(rightPoint.x, rightPoint.y);
+            //}
+
+            if (leftPoint.y != leftSlider.value)
             {
-                leftPoint.Set(leftPoint.x, leftSlider.value);// * scaler);
-                line.SetPosition(0, leftPoint);
+                if (leftPoint.y > leftSlider.value + offset)
+                    leftPoint.y -= 0.75f * Time.deltaTime;
+                else if (leftPoint.y < leftSlider.value - offset)
+                    leftPoint.y += 0.75f * Time.deltaTime;
+                else
+                {
+                    //Debug.Log("left stable");
+                    leftPoint.y += 0f;
+                }
             }
             else
             {
-                leftSlider.value = leftPoint.y;// / scaler;
-                line.SetPosition(0, leftPoint);
+                //Debug.Log("left stable");
+                leftPoint.y += 0f;
             }
 
-            if (rightSlider.value < leftSlider.value + offset && rightSlider.value > leftSlider.value - offset)
+
+            if (rightPoint.y != rightSlider.value)
             {
-                rightPoint.Set(rightPoint.x, rightSlider.value);// * scaler); // = new Vector2(rightPoint.x, rightSlider.value * scaler);
-                line.SetPosition(1, rightPoint);
+                if (rightPoint.y > rightSlider.value + offset)
+                    rightPoint.y -= 0.75f * Time.deltaTime;
+                else if (rightPoint.y < rightSlider.value - offset)
+                    rightPoint.y += 0.75f * Time.deltaTime;
+                else
+                {
+                    //Debug.Log("right stable");
+                    rightPoint.y += 0f;
+                }
             }
             else
             {
-                rightSlider.value = rightPoint.y;// / scaler;
-                line.SetPosition(1, rightPoint);
+                //Debug.Log("right stable");
+                rightPoint.y += 0f;
             }
 
+
+            line.SetPosition(0, leftPoint);
+            line.SetPosition(1, rightPoint);
             AddBoxColliderToLine(line.gameObject, leftPoint, rightPoint);
         }
         else
