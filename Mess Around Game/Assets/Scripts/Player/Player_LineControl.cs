@@ -17,6 +17,7 @@ public class Player_LineControl : MonoBehaviour {
     public float offset = 1f;//0.05f;
     float leftRate = 0f;
     float rightRate = 0f;
+    public float speed = 1f;
 
     System_GameManager gm;
 
@@ -84,25 +85,15 @@ public class Player_LineControl : MonoBehaviour {
     }
 
     void FixedUpdate ()
-    {
+    {   
         //If game is running...
         if (!gm.gameOver)
         {
-            //This is used to match the left point to the direction of the slider
-            if (leftPoint.y == leftSlider.value)
+            //If either point matches the slider, then stop
+            if (leftPoint.y > leftSlider.value || leftPoint.y < leftSlider.value)
                 leftRate = 0f;
-            if (leftPoint.y < leftSlider.value)
-                leftRate = 1f; 
-            if (leftPoint.y > leftSlider.value)
-                leftRate = -1f;
-
-            //This is used to match the right point to the direction of the slider
-            if (rightPoint.y == rightSlider.value)
+            if (rightPoint.y > rightSlider.value || rightPoint.y < rightSlider.value)
                 rightRate = 0f;
-            if (rightPoint.y < rightSlider.value)
-                rightRate = 1f; 
-            if (rightPoint.y > rightSlider.value)
-                rightRate = -1f;
 
             //This sets left point movement based on right point position
             if (leftPoint.y > rightPoint.y + offset || leftPoint.y < rightPoint.y - offset)
@@ -121,8 +112,8 @@ public class Player_LineControl : MonoBehaviour {
                 rightRate = -1f;
 
             //Left and right point updated every frame
-            leftPoint.y += leftRate * Time.deltaTime;
-            rightPoint.y += rightRate * Time.deltaTime;
+            leftPoint.y += leftRate * speed * Time.deltaTime;
+            rightPoint.y += rightRate * speed * Time.deltaTime;
 
             //Set line position/collider
             line.SetPosition(0, leftPoint);
