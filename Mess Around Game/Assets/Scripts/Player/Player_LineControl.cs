@@ -15,6 +15,8 @@ public class Player_LineControl : MonoBehaviour {
 
     float scaler;
     public float offset = 1f;//0.05f;
+    float leftRate = 0f;
+    float rightRate = 0f;
 
     System_GameManager gm;
 
@@ -60,75 +62,74 @@ public class Player_LineControl : MonoBehaviour {
 
         Coroutine co = StartCoroutine(ResetControls());
     }
-	
-	// Update is called once per frame
-	void FixedUpdate () {
+
+    void Update()
+    {
+        //These lines are in Update because they need to be managed on each frame
+        //and are not important to the physics engine
+
+        //This handles the left slider values to make sure that they 
+        //cannot be moved beyond where the line can currently reach
+        if (leftSlider.value > leftPoint.y + offset)
+            leftSlider.value = leftPoint.y + offset;
+        if (leftSlider.value < leftPoint.y - offset)
+            leftSlider.value = leftPoint.y - offset;
+
+        //This handles the right slider values to make sure that they
+        //cannot be moved beyond where the line can currently reach
+        if (rightSlider.value > rightPoint.y + offset)
+            rightSlider.value = rightPoint.y + offset;
+        if (rightSlider.value < rightPoint.y - offset)
+            rightSlider.value = rightPoint.y - offset;
+    }
+
+    void FixedUpdate ()
+    {
+        //If game is running...
         if (!gm.gameOver)
         {
-            //if (leftSlider.value < rightSlider.value + offset && leftSlider.value > rightSlider.value - offset)
-            //{
-            //    leftPoint.Set(leftPoint.x, leftSlider.value);// * scaler);
-            //    //leftPoint = new Vector2(leftPoint.x, leftSlider.value * Time.deltaTime);
-            //}
-            //else
-            //{
-            //    leftSlider.value = leftPoint.y;// / scaler;
-            //    //leftPoint.Set(leftPoint.x, leftPoint.y);
-            //}
+            //This is used to match the left point to the direction of the slider
+            if (leftPoint.y == leftSlider.value)
+                leftRate = 0f;
+            if (leftPoint.y < leftSlider.value)
+                leftRate = 1f; 
+            if (leftPoint.y > leftSlider.value)
+                leftRate = -1f;
 
-            //if (rightSlider.value < leftSlider.value + offset && rightSlider.value > leftSlider.value - offset)
-            //{
-            //    rightPoint.Set(rightPoint.x, rightSlider.value);// * scaler); // = new Vector2(rightPoint.x, rightSlider.value * scaler);
-            //    //rightPoint = new Vector2(rightPoint.x, rightSlider.value * Time.deltaTime);
-            //}
-            //else
-            //{
-            //    rightSlider.value = rightPoint.y;// / scaler;
-            //    //rightPoint.Set(rightPoint.x, rightPoint.y);
-            //}
+            //This is used to match the right point to the direction of the slider
+            if (rightPoint.y == rightSlider.value)
+                rightRate = 0f;
+            if (rightPoint.y < rightSlider.value)
+                rightRate = 1f; 
+            if (rightPoint.y > rightSlider.value)
+                rightRate = -1f;
 
-            if (leftPoint.y != leftSlider.value)
-            {
-                if (leftPoint.y > leftSlider.value + offset)
-                    leftPoint.y -= 0.75f * Time.deltaTime;
-                else if (leftPoint.y < leftSlider.value - offset)
-                    leftPoint.y += 0.75f * Time.deltaTime;
-                else
-                {
-                    //Debug.Log("left stable");
-                    leftPoint.y += 0f;
-                }
-            }
-            else
-            {
-                //Debug.Log("left stable");
-                leftPoint.y += 0f;
-            }
+            //This sets left point movement based on right point position
+            if (leftPoint.y > rightPoint.y + offset || leftPoint.y < rightPoint.y - offset)
+                leftRate = 0f;
+            if (leftPoint.y < rightPoint.y + offset && leftPoint.y < leftSlider.value)
+                leftRate = 1f; 
+            if (leftPoint.y > rightPoint.y - offset && leftPoint.y > leftSlider.value)
+                leftRate = -1f;
 
+            //This sets right point movement based on left point position
+            if (rightPoint.y > leftPoint.y + offset || rightPoint.y < leftPoint.y - offset)
+                rightRate = 0f;
+            if (rightPoint.y < leftPoint.y + offset && rightPoint.y < rightSlider.value)
+                rightRate = 1f; 
+            if (rightPoint.y > leftPoint.y - offset && rightPoint.y > rightSlider.value)
+                rightRate = -1f;
 
-            if (rightPoint.y != rightSlider.value)
-            {
-                if (rightPoint.y > rightSlider.value + offset)
-                    rightPoint.y -= 0.75f * Time.deltaTime;
-                else if (rightPoint.y < rightSlider.value - offset)
-                    rightPoint.y += 0.75f * Time.deltaTime;
-                else
-                {
-                    //Debug.Log("right stable");
-                    rightPoint.y += 0f;
-                }
-            }
-            else
-            {
-                //Debug.Log("right stable");
-                rightPoint.y += 0f;
-            }
+            //Left and right point updated every frame
+            leftPoint.y += leftRate * Time.deltaTime;
+            rightPoint.y += rightRate * Time.deltaTime;
 
-
+            //Set line position/collider
             line.SetPosition(0, leftPoint);
             line.SetPosition(1, rightPoint);
             AddBoxColliderToLine(line.gameObject, leftPoint, rightPoint);
         }
+        //Turn off sliders if game is over
         else
         {
             leftSlider.gameObject.SetActive(false);
