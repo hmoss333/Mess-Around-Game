@@ -99,7 +99,7 @@ public class Player_LineControl : MonoBehaviour {
             if (leftPoint.y > rightPoint.y + offset || leftPoint.y < rightPoint.y - offset)
                 leftRate = 0f;
             if (leftPoint.y < rightPoint.y + offset && leftPoint.y < leftSlider.value)
-                leftRate = 1f; 
+                leftRate = 1f;
             if (leftPoint.y > rightPoint.y - offset && leftPoint.y > leftSlider.value)
                 leftRate = -1f;
 
@@ -107,7 +107,7 @@ public class Player_LineControl : MonoBehaviour {
             if (rightPoint.y > leftPoint.y + offset || rightPoint.y < leftPoint.y - offset)
                 rightRate = 0f;
             if (rightPoint.y < leftPoint.y + offset && rightPoint.y < rightSlider.value)
-                rightRate = 1f; 
+                rightRate = 1f;
             if (rightPoint.y > leftPoint.y - offset && rightPoint.y > rightSlider.value)
                 rightRate = -1f;
 
