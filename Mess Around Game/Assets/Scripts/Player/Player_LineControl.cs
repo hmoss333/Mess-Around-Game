@@ -12,6 +12,10 @@ public class Player_LineControl : MonoBehaviour {
 
     Slider leftSlider;
     Slider rightSlider;
+    public float leftValue;
+    public float rightValue;
+    public bool leftMatch;
+    public bool rightMatch;
 
     float scaler;
     public float offset = 1f;//0.05f;
@@ -20,6 +24,9 @@ public class Player_LineControl : MonoBehaviour {
     public float speed = 1f;
 
     System_GameManager gm;
+
+    //points control the ends of the line
+    //values corespond to the slider values
 
     // Use this for initialization
     void Start () {
@@ -69,19 +76,45 @@ public class Player_LineControl : MonoBehaviour {
         //These lines are in Update because they need to be managed on each frame
         //and are not important to the physics engine
 
+        //Values set equal to slider values
+        leftValue = leftSlider.value;
+        rightValue = rightSlider.value;
+
+        //Round out value to improve response
+        leftValue = Mathf.Round(leftValue * 100f) / 100f;
+        rightValue = Mathf.Round(rightValue * 100f) / 100f;
+
         //This handles the left slider values to make sure that they 
         //cannot be moved beyond where the line can currently reach
-        if (leftSlider.value > leftPoint.y + offset)
-            leftSlider.value = leftPoint.y + offset;
-        if (leftSlider.value < leftPoint.y - offset)
-            leftSlider.value = leftPoint.y - offset;
+        //Currently broken
+        if (leftValue > rightValue + offset)
+        {
+            if (rightRate == 0)
+                leftValue = rightValue + offset; 
+            Debug.Log("Left side too high");
+        }
+        if (leftValue < rightValue - offset)
+        {
+            if (rightRate == 0)
+                leftValue = rightValue - offset;
+            Debug.Log("Left side too low");
+        }
 
         //This handles the right slider values to make sure that they
         //cannot be moved beyond where the line can currently reach
-        if (rightSlider.value > rightPoint.y + offset)
-            rightSlider.value = rightPoint.y + offset;
-        if (rightSlider.value < rightPoint.y - offset)
-            rightSlider.value = rightPoint.y - offset;
+        //Currently broken
+        if (rightValue > leftValue + offset)
+        {
+            if (leftRate == 0)
+                rightValue = leftValue + offset;
+            Debug.Log("Right side too high");
+        }
+        if (rightValue < leftValue - offset)
+        {
+            if (leftRate == 0)
+                rightValue = leftValue - offset;
+            Debug.Log("Right side too low");
+        }
     }
 
     void FixedUpdate ()
@@ -90,30 +123,119 @@ public class Player_LineControl : MonoBehaviour {
         if (!gm.gameOver)
         {
             //If either point matches the slider, then stop
-            if (leftPoint.y > leftSlider.value || leftPoint.y < leftSlider.value)
-                leftRate = 0f;
-            if (rightPoint.y > rightSlider.value || rightPoint.y < rightSlider.value)
-                rightRate = 0f;
+            //if (leftRate != 0 && (leftPoint.y > leftValue || leftPoint.y < leftValue))
+            //    leftRate = 0f;
+            //if (rightRate != 0 && (rightPoint.y > rightValue || rightPoint.y < rightValue))
+            //    rightRate = 0f;
 
             //This sets left point movement based on right point position
-            if (leftPoint.y > rightPoint.y + offset || leftPoint.y < rightPoint.y - offset)
-                leftRate = 0f;
-            if (leftPoint.y < rightPoint.y + offset && leftPoint.y < leftSlider.value)
-                leftRate = 1f;
-            if (leftPoint.y > rightPoint.y - offset && leftPoint.y > leftSlider.value)
-                leftRate = -1f;
+            if (leftRate == 0f)
+            {
+                if (!leftMatch)
+                {
+                    if (leftPoint.y < leftValue)
+                        leftRate = 1f;
+                    else if (leftPoint.y > leftValue)
+                        leftRate = -1f;
+                    else
+                        leftRate = 0f;
+                }
+            }
+            else if (leftRate == 1f)
+            {
+                if (leftPoint.y > leftValue)
+                {
+                    leftRate = 0f;
+                    leftMatch = true;
+                }
+            }
+            else if (leftRate == -1f)
+            {
+                if (leftPoint.y < leftValue)
+                {
+                    leftRate = 0f;
+                    leftMatch = true;
+                }
+            }
 
             //This sets right point movement based on left point position
-            if (rightPoint.y > leftPoint.y + offset || rightPoint.y < leftPoint.y - offset)
-                rightRate = 0f;
-            if (rightPoint.y < leftPoint.y + offset && rightPoint.y < rightSlider.value)
-                rightRate = 1f;
-            if (rightPoint.y > leftPoint.y - offset && rightPoint.y > rightSlider.value)
-                rightRate = -1f;
+            if (rightRate == 0f)
+            {
+                if (!rightMatch)
+                {
+                    if (rightPoint.y < rightValue)
+                        rightRate = 1f;
+                    else if (rightPoint.y > rightValue)
+                        rightRate = -1f;
+                    else
+                        rightRate = 0f;
+                }
+            }
+            else if (rightRate == 1f)
+            {
+                if (rightPoint.y > rightValue)
+                {
+                    rightRate = 0f;
+                    rightMatch = true;
+                }
+            }
+            else if (rightRate == -1f)
+            {
+                if (rightPoint.y < rightValue)
+                {
+                    rightRate = 0f;
+                    rightMatch = true;
+                }
+            }
+
+            //if (leftMatch)
+            //{
+            //    if (leftRate == 0f)
+            //    {
+            //        if (leftPoint.y < leftValue)
+            //        {
+            //            leftRate = 1f;
+            //            leftMatch = false;
+            //        }
+            //        else if (leftPoint.y > leftValue)
+            //        {
+            //            leftRate = -1f;
+            //            leftMatch = false;
+            //        }
+            //    }
+            //    else
+            //        leftRate = 0f;
+            //}
+
+            //if (rightMatch)
+            //{
+            //    if (rightRate == 0f)
+            //    {
+            //        if (rightPoint.y < rightValue)
+            //        {
+            //            rightRate = 1f;
+            //            rightMatch = false;
+            //        }
+            //        else if (rightPoint.y > rightValue)
+            //        {
+            //            rightRate = -1f;
+            //            rightMatch = false;
+            //        }
+            //    }
+            //    else
+            //        rightRate = 0f;
+            //}
+
+            Debug.Log("Left: " + leftRate);
+            Debug.Log("Right: " + rightRate);
 
             //Left and right point updated every frame
             leftPoint.y += leftRate * speed * Time.deltaTime;
             rightPoint.y += rightRate * speed * Time.deltaTime;
+
+            //Round out value to improve response
+            leftPoint.y = Mathf.Round(leftPoint.y * 100f) / 100f;
+            rightPoint.y = Mathf.Round(rightPoint.y * 100f) / 100f;
 
             //Set line position/collider
             line.SetPosition(0, leftPoint);
