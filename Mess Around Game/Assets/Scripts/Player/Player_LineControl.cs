@@ -25,7 +25,10 @@ public class Player_LineControl : MonoBehaviour {
     float rightRate = 0f;
     [SerializeField] float speed = 1f;
 
+    BoxCollider2D col;
+
     System_GameManager gm;
+    Camera cam;
 
     //points control the ends of the line
     //values corespond to the slider values
@@ -33,6 +36,7 @@ public class Player_LineControl : MonoBehaviour {
     // Use this for initialization
     void Start () {
         gm = GameObject.FindObjectOfType<System_GameManager>();
+        cam = Camera.main;
         scaler = gm.height;
 
         leftSlider = GameObject.Find("LeftSlider").GetComponent<Slider>();
@@ -73,6 +77,14 @@ public class Player_LineControl : MonoBehaviour {
         line.SetPosition(0, leftPoint);
         line.SetPosition(1, rightPoint);
 
+        if (GameObject.Find("Collider") == null)
+        {
+            Debug.Log("Added Collider");
+            col = new GameObject("Collider").AddComponent<BoxCollider2D>();
+            col.transform.parent = line.gameObject.transform; // Collider is added as child object of line
+            col.gameObject.tag = "Line";
+        }
+
         Coroutine co = StartCoroutine(ResetControls());
     }
 
@@ -96,14 +108,16 @@ public class Player_LineControl : MonoBehaviour {
         //{
         //    if (rightMatch)
         //    {
-        //        leftSlider.value = rightSlider.value + offset;
+        //        leftSlider.maxValue = leftValue;
+        //        leftSlider.minValue = rightValue - offset;
         //    }
         //}
         //else if (leftValue < rightValue - offset)
         //{
         //    if (rightMatch)
         //    {
-        //        leftSlider.value = rightSlider.value - offset;
+        //        leftSlider.maxValue = rightValue + offset;
+        //        leftSlider.minValue = leftValue;
         //    }
         //}
 
@@ -114,16 +128,32 @@ public class Player_LineControl : MonoBehaviour {
         //{
         //    if (leftMatch)
         //    {
-        //        rightSlider.value = leftSlider.value + offset;
+        //        rightSlider.maxValue = leftValue;
+        //        rightSlider.minValue = rightValue - offset;
         //    }
         //}
         //else if (rightValue < leftValue - offset)
         //{
         //    if (leftMatch)
         //    {
-        //        rightSlider.value = leftSlider.value - offset;
+        //        rightSlider.maxValue = rightValue + offset;
+        //        rightSlider.minValue = leftValue;
         //    }
         //}
+
+
+        //Experiment; Technically works, but is very buggy/not intuitive
+        //if (leftValue > 0)
+        //    leftSlider.minValue = rightValue - offset;
+        //else
+        //    leftSlider.minValue = 0f;
+        //leftSlider.maxValue = rightValue + offset;
+
+        //if (rightValue > 0)
+        //    rightSlider.minValue = leftValue - offset;
+        //else
+        //    rightSlider.minValue = 0f;
+        //rightSlider.maxValue = leftValue + offset;
     }
 
     void FixedUpdate ()
@@ -214,7 +244,9 @@ public class Player_LineControl : MonoBehaviour {
             //Set line position/collider
             line.SetPosition(0, leftPoint);
             line.SetPosition(1, rightPoint);
-            AddBoxColliderToLine(line.gameObject, leftPoint, rightPoint);
+            UpdateCollider(line.gameObject, leftPoint, rightPoint);
+
+            CheckScreenPosition(leftPoint, rightPoint);
         }
         //Turn off sliders if game is over
         else
@@ -224,17 +256,8 @@ public class Player_LineControl : MonoBehaviour {
         }
     }
 
-    void AddBoxColliderToLine(GameObject lineObject, Vector3 startPos, Vector3 endPos)
+    void UpdateCollider(GameObject lineObject, Vector3 startPos, Vector3 endPos)
     {
-        BoxCollider2D col;
-        if (GameObject.Find("Collider") == null)
-        {
-            Debug.Log("Added Collider");
-            col = new GameObject("Collider").AddComponent<BoxCollider2D>();
-            col.transform.parent = lineObject.transform; // Collider is added as child object of line
-            col.gameObject.tag = "Line";
-        }
-
         float lineLength = Vector3.Distance(startPos, endPos); // length of line
         GameObject.Find("Collider").GetComponent<BoxCollider2D>().size = new Vector3(lineLength, line.startWidth, 1f); // size of collider is set where X is length of line, Y is width of line, Z will be set as per requirement
         Vector3 midPoint = (startPos + endPos) / 2;
@@ -255,5 +278,33 @@ public class Player_LineControl : MonoBehaviour {
         yield return new WaitForSeconds(0.01f);
         leftSlider.gameObject.SetActive(true);
         rightSlider.gameObject.SetActive(true);
+    }
+
+    void CheckScreenPosition (Vector3 left, Vector3 right)
+    {
+        float checkHeight = Screen.height / 2;
+        float leftHeight = cam.WorldToScreenPoint(left).y;
+        float rightHeight = cam.WorldToScreenPoint(right).y;
+
+
+        Debug.Log(checkHeight);
+        Debug.Log(leftHeight);
+        Debug.Log(rightHeight);
+        
+        if (leftHeight >= checkHeight)
+        {
+            Debug.Log("Left at max");
+            leftRate = 0;
+        }
+        else if (rightHeight >= checkHeight)
+        {
+            Debug.Log("Right at max");
+            rightRate = 0;
+        }
+    }
+
+    void RotateStick ()
+    {
+        
     }
 }
