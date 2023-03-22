@@ -63,13 +63,7 @@ public class System_GameManager : MonoBehaviour {
         gameOver = true;
         player.GetComponent<Rigidbody2D>().simulated = false;
         PlayerPrefs.SetInt("Streak", 0);
-        StartCoroutine(TurnOnGameOverScreen(0.45f));
-    }
-
-    IEnumerator TurnOnGameOverScreen (float timeToWait)
-    {
-        yield return new WaitForSeconds(timeToWait);
-        gameOverPanel.SetActive(true);
+        Retry();
     }
 
     public void NextLevel ()

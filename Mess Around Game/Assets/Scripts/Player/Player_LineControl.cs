@@ -285,11 +285,6 @@ public class Player_LineControl : MonoBehaviour {
         float checkHeight = Screen.height / 2;
         float leftHeight = cam.WorldToScreenPoint(left).y;
         float rightHeight = cam.WorldToScreenPoint(right).y;
-
-
-        Debug.Log(checkHeight);
-        Debug.Log(leftHeight);
-        Debug.Log(rightHeight);
         
         if (leftHeight >= checkHeight)
         {

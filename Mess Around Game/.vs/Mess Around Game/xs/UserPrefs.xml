@@ -1,0 +1,31 @@
+﻿<Properties StartupConfiguration="{DC265198-6BC7-30BD-C176-3183152A2FAB}|">
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="e044ee89-8eae-4036-8e65-e2c2d4754e8d" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Player/Player_LineControl.cs">
+    <Files>
+      <File FileName="Assets/Scripts/System/System_GameManager.cs" Line="67" Column="6" />
+      <File FileName="Assets/Scripts/Obstacle/Obstacle_Base.cs" Line="37" Column="36" />
+      <File FileName="Assets/Scripts/Player/Player_LineControl.cs" Line="287" Column="61" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Mess Around Game" expanded="True" selected="True" />
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="Unity" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
